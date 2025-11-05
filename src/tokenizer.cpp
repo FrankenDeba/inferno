@@ -6,6 +6,7 @@
 #include <nlohmann/json.hpp>
 
 #include "Config.h"
+#include "tokenizer.h"
 
 using namespace std;
 using json = nlohmann::json;
@@ -75,7 +76,7 @@ vector<TokenEntry>
     return vocab;
 }
 
-vector<vector<float>> tokenize(const string &words) {
+vector<vector<float>> tokenize(const string &words, int &dim) {
     vector<string> tokens = load_tokens(words);
     vector<TokenEntry> vocab = load_vocab("vocab.json");
 
@@ -106,7 +107,7 @@ vector<vector<float>> tokenize(const string &words) {
 }
 
 int main() {
-    vector<vector<float>> embeddings = tokenize("I am able to find a good book");
+    vector<vector<float>> embeddings = tokenize("I am able to find a good book", dim);
 
     for (const auto& emb: embeddings) {
         for (const auto& val: emb) {
