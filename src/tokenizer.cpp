@@ -92,6 +92,8 @@ vector<vector<float>> tokenize(const string &words) {
                     emb[i] = emb_weight[i % emb_weight.size()] * v.id / 100.0f;
                 }
                 embeddings.push_back(emb);
+
+                cout << "Embedding for token " << t  << endl;
             }
     }
     }
@@ -104,7 +106,7 @@ vector<vector<float>> tokenize(const string &words) {
 }
 
 int main() {
-    vector<vector<float>> embeddings = tokenize("This is a sample text for tokenization");
+    vector<vector<float>> embeddings = tokenize("I am able to find a good book");
 
     for (const auto& emb: embeddings) {
         for (const auto& val: emb) {
