@@ -1,10 +1,14 @@
 #include <bits/stdc++.h>
+#include "Config.h"
 
 using namespace std;
 
+Sizes model_sizes(4, 16, 6, 8, 8, 10, 1024);
+
+int dim = model_sizes.dim;
+int vocab = model_sizes.vocab_size;
+
 int main() {
-    int dim = 4;
-    int vocab = 10;
 
     vector<vector<float>> W(vocab, vector<float>(dim));
 
@@ -13,7 +17,14 @@ int main() {
 
     int token_id = 5;
 
+
     vector<float> x = W[token_id];
+
+    // cout << "Input token embedding: " << x << endl;
+
+    for (int i = 0; i < x.size(); i++) {
+        cout << x[i] << "  ";
+    }
 
     vector<float> logits(vocab, 0.0f);
 
