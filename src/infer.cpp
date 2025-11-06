@@ -1,5 +1,8 @@
 #include <bits/stdc++.h>
+
 #include "Config.h"
+#include "tokenizer.h"
+#include "model.h"
 
 using namespace std;
 
@@ -10,32 +13,51 @@ int vocab = model_sizes.vocab_size;
 
 int main() {
 
-    vector<vector<float>> W(vocab, vector<float>(dim));
+    // vector<vector<float>> W(vocab, vector<float>(dim));
 
-    for (auto &row : W)
-        for (auto &val : row) val = ((rand() % 200) - 100) / 500.0f;
+    // for (auto &row : W)
+    //     for (auto &val : row) val = ((rand() % 200) - 100) / 500.0f;
 
-    int token_id = 5;
+    // int token_id = 5;
 
+    string input = "I am able to find a good book";
+    auto vocab = load_vocab("vocab.json");
+    auto tokens = load_tokens(input);
+    auto embeddings = encode(input, dim);
 
-    vector<float> x = W[token_id];
+    auto [max_logit, predicted_token] = predict(model_sizes, embeddings[0]);
 
-    // cout << "Input token embedding: " << x << endl;
+    cout << "Predicted token id: " << predicted_token << " with logit: " << max_logit << endl;
 
-    for (int i = 0; i < x.size(); i++) {
-        cout << x[i] << "  ";
-    }
+    cout << "Printing embeddings: \n";
+    for (auto &emb: embeddings) {
+        for (auto &val: emb) {
+            cout << val << " ";
 
-    vector<float> logits(vocab, 0.0f);
-
-    for (int i = 0; i < vocab; i++) {
-        for (int j = 0; j < dim; j++) {
-            logits[i] += W[i][j] * x[j];
         }
+
+        cout << "\n" << endl;
     }
 
-    int next = max_element(logits.begin(), logits.end()) - logits.begin();
-    cout << "Next token predicted is: " << next << endl;
+
+    // vector<float> x = W[token_id];
+
+    // // cout << "Input token embedding: " << x << endl;
+
+    // for (int i = 0; i < x.size(); i++) {
+    //     cout << x[i] << "  ";
+    // }
+
+    // vector<float> logits(vocab, 0.0f);
+
+    // for (int i = 0; i < vocab; i++) {
+    //     for (int j = 0; j < dim; j++) {
+    //         logits[i] += W[i][j] * x[j];
+    //     }
+    // }
+
+    // int next = max_element(logits.begin(), logits.end()) - logits.begin();
+    // cout << "Next token predicted is: " << next << endl;
 
     return 0;
 }
