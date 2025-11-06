@@ -13,11 +13,6 @@ using json = nlohmann::json;
 
 vector<float> emb_weight = {0.15f, 0.25f, 0.35f, 0.45f};
 
-struct TokenEntry {
-    string token;
-    int id;
-};
-
 Sizes model_sizes(4, 16, 6, 8, 8, 100, 1024);
 
 int dim = model_sizes.dim;
@@ -76,7 +71,7 @@ vector<TokenEntry>
     return vocab;
 }
 
-vector<vector<float>> tokenize(const string &words, int &dim) {
+vector<vector<float>> encode(const string &words, int &dim) {
     vector<string> tokens = load_tokens(words);
     vector<TokenEntry> vocab = load_vocab("vocab.json");
 
@@ -107,7 +102,7 @@ vector<vector<float>> tokenize(const string &words, int &dim) {
 }
 
 int main() {
-    vector<vector<float>> embeddings = tokenize("I am able to find a good book", dim);
+    vector<vector<float>> embeddings = encode("I am able to find a good book", dim);
 
     for (const auto& emb: embeddings) {
         for (const auto& val: emb) {

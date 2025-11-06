@@ -4,14 +4,16 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 struct TokenEntry {
-    std::string token;
+    string token;
     int id;
 };
 
 // Declare your functions here
-std::vector<TokenEntry> load_vocab(const std::string &filename);
-std::vector<std::string> load_tokens(const std::string &text);
-std::vector<std::vector<float>> tokenize(const std::string &text, const int &dim);
+vector<TokenEntry> load_vocab(const string &filename);
+vector<string> load_tokens(const string &text);
+vector<vector<float>> encode(const string &text, const int &dim);
 
 #endif
