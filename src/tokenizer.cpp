@@ -13,15 +13,15 @@ using json = nlohmann::json;
 
 vector<float> emb_weight = {0.15f, 0.25f, 0.35f, 0.45f};
 
-
-
-vector<string> load_tokens(const string &text) {
+vector<string> load_tokens(const string &text)
+{
     istringstream stream(text);
 
     vector<string> tokens;
     string token;
 
-    while (stream >> token) {
+    while (stream >> token)
+    {
         tokens.push_back(token);
     }
 
@@ -33,10 +33,12 @@ vector<string> load_tokens(const string &text) {
 }
 
 vector<TokenEntry>
- load_vocab(const string &filename) {
+load_vocab(const string &filename)
+{
     ifstream file(filename);
 
-    if (!file.is_open()) {
+    if (!file.is_open())
+    {
         cerr << "Error: could not find the vocabulary file: " << filename << endl;
 
         return vector<TokenEntry>{};
@@ -46,7 +48,8 @@ vector<TokenEntry>
 
     file >> words;
 
-    if (!words.is_object()) {
+    if (!words.is_object())
+    {
         std::cerr << "Expected object of token->id\n";
         return {};
     }
@@ -54,7 +57,8 @@ vector<TokenEntry>
     vector<TokenEntry> vocab;
     vocab.reserve(words.size());
 
-    for (auto& [token, id]: words.items()) {
+    for (auto &[token, id] : words.items())
+    {
         // cout << token << endl;
         TokenEntry entry;
 
@@ -66,27 +70,32 @@ vector<TokenEntry>
     return vocab;
 }
 
-vector<vector<float>> encode(const string &words, const int &dim) {
+vector<vector<float>> encode(const string &words, const int &dim)
+{
     vector<string> tokens = load_tokens(words);
     vector<TokenEntry> vocab = load_vocab("vocab.json");
 
     vector<vector<float>> embeddings;
 
-    for (const auto &t : tokens) {
+    for (const auto &t : tokens)
+    {
         cout << "Token: " << t << endl;
 
-         for (const auto &v : vocab) {
-            if (v.token == t) {
+        for (const auto &v : vocab)
+        {
+            if (v.token == t)
+            {
                 // cout << "Found token id: " << v.id << " " << t << endl;
                 vector<float> emb(dim, 0.0f);
-                for (int i = 0; i < dim; i++) {
+                for (int i = 0; i < dim; i++)
+                {
                     emb[i] = emb_weight[i % emb_weight.size()] * v.id / 100.0f;
                 }
                 embeddings.push_back(emb);
 
-                cout << "Embedding for token " << t  << endl;
+                cout << "Embedding for token " << t << endl;
             }
-    }
+        }
     }
 
     // for (const auto &v : vocab) {
@@ -106,7 +115,18 @@ vector<vector<float>> encode(const string &words, const int &dim) {
 //         cout << endl;
 //     }
 
-
 //     return 0;
 // }
 
+string decode(const int &token_id, const vector<TokenEntry> &vocab)
+{
+    for (auto &v : vocab)
+    {
+        if (v.id == token_id)
+        {
+            return v.token;
+        }
+    }
+
+    return "";
+}

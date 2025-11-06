@@ -6,7 +6,8 @@
 
 using namespace std;
 
-struct TokenEntry {
+struct TokenEntry
+{
     string token;
     int id;
 };
@@ -15,5 +16,6 @@ struct TokenEntry {
 vector<TokenEntry> load_vocab(const string &filename);
 vector<string> load_tokens(const string &text);
 vector<vector<float>> encode(const string &text, const int &dim);
+string decode(const int &token_id, const vector<TokenEntry> &vocab);
 
 #endif

@@ -11,7 +11,8 @@ Sizes model_sizes(4, 16, 6, 8, 8, 10, 1024);
 int dim = model_sizes.dim;
 int vocab = model_sizes.vocab_size;
 
-int main() {
+int main()
+{
 
     // vector<vector<float>> W(vocab, vector<float>(dim));
 
@@ -20,25 +21,30 @@ int main() {
 
     // int token_id = 5;
 
-    string input = "I am able to find a good book";
+    string input = "an animal";
     auto vocab = load_vocab("vocab.json");
     auto tokens = load_tokens(input);
     auto embeddings = encode(input, dim);
 
-    auto [max_logit, predicted_token] = predict(model_sizes, embeddings[0]);
+    auto [W, b] = initialize_wts(model_sizes);
+
+    auto [max_logit, predicted_token] = predict(model_sizes, embeddings[0], W, b);
 
     cout << "Predicted token id: " << predicted_token << " with logit: " << max_logit << endl;
 
-    cout << "Printing embeddings: \n";
-    for (auto &emb: embeddings) {
-        for (auto &val: emb) {
-            cout << val << " ";
+    cout << "predicted word: " << decode(predicted_token, vocab) << endl;
 
+    cout << "Printing embeddings: \n";
+    for (auto &emb : embeddings)
+    {
+        for (auto &val : emb)
+        {
+            cout << val << " ";
         }
 
-        cout << "\n" << endl;
+        cout << "\n"
+             << endl;
     }
-
 
     // vector<float> x = W[token_id];
 

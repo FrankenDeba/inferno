@@ -12,8 +12,7 @@ using namespace std;
 // Declare your functions here
 
 tuple<vector<vector<float>>, vector<float>> initialize_wts(const Sizes &model_sizes);
-vector<float> forward_pass(const Sizes &model_sizes, const vector<float> &embeddings);
-tuple<float, int> predict(const Sizes &model_sizes, const vector<float> &embeddings);
-
+vector<float> forward_pass(const Sizes &model_sizes, const vector<float> &embeddings, const vector<vector<float>> &w, const vector<float> &b);
+tuple<float, int> predict(const Sizes &model_sizes, const vector<float> &embeddings, const vector<vector<float>> &w, const vector<float> &b);
 
 #endif
