@@ -13,11 +13,6 @@ using json = nlohmann::json;
 
 vector<float> emb_weight = {0.15f, 0.25f, 0.35f, 0.45f};
 
-Sizes model_sizes(4, 16, 6, 8, 8, 100, 1024);
-
-int dim = model_sizes.dim;
-int vocab_size = model_sizes.vocab_size;
-
 
 
 vector<string> load_tokens(const string &text) {
@@ -71,14 +66,14 @@ vector<TokenEntry>
     return vocab;
 }
 
-vector<vector<float>> encode(const string &words, int &dim) {
+vector<vector<float>> encode(const string &words, const int &dim) {
     vector<string> tokens = load_tokens(words);
     vector<TokenEntry> vocab = load_vocab("vocab.json");
 
     vector<vector<float>> embeddings;
 
     for (const auto &t : tokens) {
-        // cout << "Token: " << t << endl;
+        cout << "Token: " << t << endl;
 
          for (const auto &v : vocab) {
             if (v.token == t) {
@@ -101,17 +96,17 @@ vector<vector<float>> encode(const string &words, int &dim) {
     return embeddings;
 }
 
-int main() {
-    vector<vector<float>> embeddings = encode("I am able to find a good book", dim);
+// int main() {
+//     vector<vector<float>> embeddings = encode("I am able to find a good book", dim);
 
-    for (const auto& emb: embeddings) {
-        for (const auto& val: emb) {
-            cout << val << " ";
-        }
-        cout << endl;
-    }
+//     for (const auto& emb: embeddings) {
+//         for (const auto& val: emb) {
+//             cout << val << " ";
+//         }
+//         cout << endl;
+//     }
 
 
-    return 0;
-}
+//     return 0;
+// }
 
