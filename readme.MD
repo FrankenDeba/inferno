@@ -1,0 +1,1 @@
+cmd to run: g++ -std=c++17 -Iinclude tokenizer.cpp infer.cpp model.cpp -o app
