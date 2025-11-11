@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <tuple>
 
 #include "Config.h"
 #include "tokenizer.h"
@@ -10,6 +11,34 @@ Sizes model_sizes(4, 16, 6, 8, 8, 10, 1024);
 
 int dim = model_sizes.dim;
 int vocab = model_sizes.vocab_size;
+
+tuple<vector<vector<float>>> matmul(int seq_n, vector<vector<float>> &X, vector<vector<float>> &W_Q, vector<vector<float>> &W_K, vector<vector<float>> &W_V) {
+// seq_n: number of tokens in the sequence
+// dim: dimension of each token embedding
+// X: input embeddings of shape (seq_n, dim)
+// W_Q, W_K, W_V: weight matrices of shape (dim, dim)
+// W_Q, W_K, W_V are the learned projection matrices for queries, keys, and values respectively
+vector<vector<float>> Q(seq_n, vector<float>(dim, 0.0f));
+vector<vector<float>> K(seq_n, vector<float>(dim, 0.0f));
+vector<vector<float>> V(seq_n, vector<float>(dim, 0.0f));
+
+for (int i = 0; i < seq_n; i++) {
+    for (int j = 0; j < dim; j++) {
+        float sum = 0.0f;
+        for (int k = 0; k < dim; k++) {
+            // Sum is the dot product of row i of X and column j of W_Q
+            // X[i][k] is the k-th element of the i-th token embedding
+            // W_Q[k][j] is the k-th element of the j-th column of W_Q
+            // Q[i][j] is the j-th element of the query vector for the i-th token
+            
+            Q[i][j] += X[i][k] * W_Q[k][j];
+            K[i][j] += X[i][k] * W_K[k][j];
+            V[i][j] += X[i][k] * W_V[k][j];
+        }
+    }
+}
+
+}
 
 int main()
 {
